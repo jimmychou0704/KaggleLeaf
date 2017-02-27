@@ -2,7 +2,9 @@ from PIL import Image
 import PIL.ImageOps
 import numpy as np
 import triangle as tr
+import time
 
+outputname = 'ratios.csv'
 seperator = '\n-------------------------\n'
 
 # The gradient weights for L1 norm of gradient for each triangle type
@@ -21,14 +23,14 @@ L2size = [ [0.0, 1/12.0, 11/36.0]
 L2size = np.array(L2size)
 print('L2size = \n', L2size)
 
-numpics = 10
+numpics = 1584
 
 isopratios = np.zeros((numpics, 2))
+lasttime = time.clock()
 for i in range(numpics):
     
     # Load the image.
     filename = 'Data/images/' + str(i+1) + '.jpg' 
-    print(seperator, 'Analyzing file ', filename)
     myimage = Image.open(filename)
     myimage = myimage.convert('1')
     (imheight, imwidth) = myimage.size
@@ -40,17 +42,32 @@ for i in range(numpics):
     counter = tr.TriangleCount(pixeldata)
     counter.normalize()
     counter.getcounts()
-    print('Triangle Counts = \n', counter.counts)
     
     totalgradient = np.sum( counter.counts * gradientsize ) 
     L2norm = np.sum( counter.counts * L2size)
     L2norm = np.sqrt( L2norm )
     ratio = totalgradient / L2norm
-    print('Ratio = ', ratio ) 
+
     isopratios[i][0] = i + 1
     isopratios[i][1] = ratio
+    myimage.close()
+    currenttime = time.clock()
+    if currenttime - lasttime > 20: 
+        print(seperator, 'Finished analyzing image ', filename)
+        print('Triangle Counts = \n', counter.counts)
+        print('Ratio = ', ratio)
+        lasttime = currenttime
     
-np.savetxt("ratios.csv", isopratios, delimiter = ',') 
+print('Now Saving Results to file ', outputname)
+f = open(outputname, 'w')
+f.truncate()
+line = 'id,isopratio\n'
+f.write(line)
+for i in range(numpics):
+    line = str(i+1) + ',' + str(isopratios[i][1]) +  '\n'
+    f.write(line)
+f.close()
+    
 #################### Old Stuff
 perimetersize = [ [0, 1, 2]
                 , [2, 1, 0]
