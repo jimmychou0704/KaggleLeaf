@@ -6,4 +6,6 @@ test.py contains code for testing the scale invariance properties of the functio
 
 findratios.py contains code for running functions in triangle.py to analyze the leaf photographs in the Kaggle data set and save the results as a comma separated file.
 
+analyzeratios.py contains code for analyzing the ratios for different species in the training data.
+
 triangle.py is the module containing the functions for analyzing the isoperimetric ratio in the image files. 
