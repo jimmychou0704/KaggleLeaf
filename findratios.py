@@ -3,8 +3,9 @@ import PIL.ImageOps
 import numpy as np
 import triangle as tr
 import time
+import matplotlib.pyplot as plt
 
-outputname = 'ratios.csv'
+outputname = 'ratiostest.csv'
 seperator = '\n-------------------------\n'
 
 # The gradient weights for L1 norm of gradient for each triangle type
@@ -23,7 +24,8 @@ L2size = [ [0.0, 1/12.0, 11/36.0]
 L2size = np.array(L2size)
 print('L2size = \n', L2size)
 
-numpics = 1584
+# numpics = 1584
+numpics = 100
 
 isopratios = np.zeros((numpics, 2))
 lasttime = time.clock()
@@ -33,7 +35,8 @@ for i in range(numpics):
     filename = 'Data/images/' + str(i+1) + '.jpg' 
     myimage = Image.open(filename)
     myimage = myimage.convert('1')
-    (imheight, imwidth) = myimage.size
+    #(imheight, imwidth) = myimage.size
+    (imwidth, imheight) = myimage.size
     
     pixeldata = np.array(myimage.getdata(), dtype = 'uint')
     pixeldata = pixeldata.reshape(imheight, imwidth)
@@ -41,7 +44,7 @@ for i in range(numpics):
     # Set up counter. Normalize the pixel data to be values of 0 or 1.
     counter = tr.TriangleCount(pixeldata)
     counter.normalize()
-    counter.getcounts()
+    counter.getcounts(step = 2)
     
     totalgradient = np.sum( counter.counts * gradientsize ) 
     L2norm = np.sum( counter.counts * L2size)

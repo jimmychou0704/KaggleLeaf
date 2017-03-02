@@ -2,6 +2,7 @@ from PIL import Image
 import PIL.ImageOps
 import numpy as np
 import triangle as tr
+import matplotlib.pyplot as plt
 
 seperator = '\n-------------------------\n'
 
@@ -22,15 +23,17 @@ L2size = np.array(L2size)
 print('L2size = \n', L2size)
 
 # Load the images.
-myimage = Image.open('Data/images/1.jpg')
-#myimage = Image.open('circle.jpg')
-#myimage = Image.open('othertriangle.jpg')
+#myimage = Image.open('Data/images/1.jpg')
+# myimage = Image.open('bigcircle.jpg')
+myimage = Image.open('othertriangle.jpg')
 myimage = myimage.convert('1')
-(imheight, imwidth) = myimage.size
+(imwidth, imheight) = myimage.size
 print('image dimensions = ', myimage.size)
 
 pixeldata = np.array(myimage.getdata(), dtype = 'uint')
 pixeldata = pixeldata.reshape(imheight, imwidth)
+plt.imshow(pixeldata, cmap = plt.cm.gray)
+plt.show()
 print('pixeldata shape = ', pixeldata.shape)
 
 # Set up counter. Normalize the pixel data to be values of 0 or 1.
