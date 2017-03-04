@@ -44,7 +44,7 @@ for i in range(numpics):
     # Set up counter. Normalize the pixel data to be values of 0 or 1.
     counter = tr.TriangleCount(pixeldata)
     counter.normalize()
-    counter.getcounts(step = 2)
+    counter.getcounts(step = 1)
     
     totalgradient = np.sum( counter.counts * gradientsize ) 
     L2norm = np.sum( counter.counts * L2size)

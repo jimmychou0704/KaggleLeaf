@@ -15,6 +15,15 @@ class TriangleCount:
         rightindex = rightvertex
         acuteindex = acute1 + acute2
         self.counts[rightindex][acuteindex] += 1
+
+    def updatecountsnumeric(self, values, counts):
+        for i in range(len(values)):
+            if values[i] > 9:
+                rightindex = 1
+            else: 
+                rightindex = 0
+            acuteindex = values[i] % 10
+            self.counts[rightindex][acuteindex] += counts[i] 
        
 
     def getcounts(self, step = 1):
@@ -35,16 +44,43 @@ class TriangleCount:
 #                                 )
 # 
 
+#         for i in range(0, self.height - 1, step):
+#             row1 = self.pixels[i]
+#             row2 = self.pixels[i+1]
+#             acuteangles = row1[:-1] + row2[1:]
+#             rightangles = row1[1:]
+#             trianglecounts = 10*rightangles + acuteangles
+#             trianglecounts, counts = np.unique(trianglecounts, return_counts = True) 
+#             self.updatecountsnumeric(trianglecounts, counts)
+# 
+#             rightangles = row2[:-1]
+#             trianglecounts = 10*rightangles + acuteangles
+#             trianglecounts, counts = np.unique(trianglecounts, return_counts = True)
+#             self.updatecountsnumeric(trianglecounts, counts)
+ 
+        acute1 = self.pixels[:-1, :-1]
+        acute2 = self.pixels[1:, 1:]
+        right = self.pixels[:-1, 1:]
+        triangles = 10*right + acute1 + acute2
+        triangles, counts = np.unique(triangles, return_counts = True)
+        self.updatecountsnumeric(triangles, counts)
+
+        right = self.pixels[1:, :-1]
+        triangles = 10*right + acute1 + acute2
+        triangles, counts = np.unique(triangles, return_counts = True)
+        self.updatecountsnumeric(triangles, counts)
+
+
            
-        for i in range(0, self.height - 1, step):
-            for j in range(0, self.width - 1, step): 
-                acute1 = self.pixels[i][j]
-                acute2 = self.pixels[i+1][j+1]
-                self.updatecounts( self.pixels[i+1][j]
-                                 , acute1
-                                 , acute2
-                                 )
-                self.updatecounts( self.pixels[i][j+1]
-                                 , acute1
-                                 , acute2
-                                 )
+#         for i in range(0, self.height - 1, step):
+#             for j in range(0, self.width - 1, step): 
+#                 acute1 = self.pixels[i][j]
+#                 acute2 = self.pixels[i+1][j+1]
+#                 self.updatecounts( self.pixels[i+1][j]
+#                                  , acute1
+#                                  , acute2
+#                                  )
+#                 self.updatecounts( self.pixels[i][j+1]
+#                                  , acute1
+#                                  , acute2
+#                                  )
