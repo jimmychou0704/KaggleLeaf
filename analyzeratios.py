@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 seperator = '\n-------------------------\n'
 
-ratios_df = pd.read_csv('ratios.csv')
+ratios_df = pd.read_csv('ratiostest.csv')
 train_df = pd.read_csv('Data/train.csv')
 train_df = train_df.loc[:, ['id', 'species']]
 

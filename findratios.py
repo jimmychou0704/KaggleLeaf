@@ -24,8 +24,8 @@ L2size = [ [0.0, 1/12.0, 11/36.0]
 L2size = np.array(L2size)
 print('L2size = \n', L2size)
 
-# numpics = 1584
-numpics = 100
+numpics = 1584
+# numpics = 500
 
 isopratios = np.zeros((numpics, 2))
 lasttime = time.clock()
@@ -42,8 +42,10 @@ for i in range(numpics):
     pixeldata = pixeldata.reshape(imheight, imwidth)
     
     # Set up counter. Normalize the pixel data to be values of 0 or 1.
+    # pixeldata = np.floor_divide(pixeldata, 255)
+    pixeldata[pixeldata > 0] = 1
     counter = tr.TriangleCount(pixeldata)
-    counter.normalize()
+    # counter.normalize()
     counter.getcounts(step = 1)
     
     totalgradient = np.sum( counter.counts * gradientsize ) 
