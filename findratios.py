@@ -25,7 +25,7 @@ L2size = np.array(L2size)
 print('L2size = \n', L2size)
 
 numpics = 1584
-# numpics = 500
+# numpics = 200
 
 isopratios = np.zeros((numpics, 2))
 lasttime = time.clock()
@@ -44,13 +44,18 @@ for i in range(numpics):
     # Set up counter. Normalize the pixel data to be values of 0 or 1.
     # pixeldata = np.floor_divide(pixeldata, 255)
     pixeldata[pixeldata > 0] = 1
-    counter = rc.TriangleCount(pixeldata)
+    # counter = rc.TriangleCount(pixeldata)
     # counter.normalize()
-    counter.getcounts(step = 1)
+    # counter.getcounts(step = 1)
+
+    boxcounter = rc.BoxCount(pixeldata)
+    boxcounter.getcounts()
     
-    totalgradient = np.sum( counter.counts * gradientsize ) 
-    L2norm = np.sum( counter.counts * L2size)
-    L2norm = np.sqrt( L2norm )
+    # totalgradient = np.sum( counter.counts * gradientsize ) 
+    # L2norm = np.sum( counter.counts * L2size)
+    # L2norm = np.sqrt( L2norm )
+    totalgradient = boxcounter.findperimeter()
+    L2norm = boxcounter.findL2Norm()
     ratio = totalgradient / L2norm
 
     isopratios[i][0] = i + 1
@@ -59,7 +64,8 @@ for i in range(numpics):
     currenttime = time.clock()
     if currenttime - lasttime > 20: 
         print(seperator, 'Finished analyzing image ', filename)
-        print('Triangle Counts = \n', counter.counts)
+        print('Box Counts = \n', boxcounter.counts)
+        # print('Triangle Counts = \n', counter.counts)
         print('Ratio = ', ratio)
         lasttime = currenttime
     
