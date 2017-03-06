@@ -1,7 +1,7 @@
 from PIL import Image
 import PIL.ImageOps
 import numpy as np
-import triangle as tr
+import ratioclasses as rc 
 import time
 import matplotlib.pyplot as plt
 
@@ -44,7 +44,7 @@ for i in range(numpics):
     # Set up counter. Normalize the pixel data to be values of 0 or 1.
     # pixeldata = np.floor_divide(pixeldata, 255)
     pixeldata[pixeldata > 0] = 1
-    counter = tr.TriangleCount(pixeldata)
+    counter = rc.TriangleCount(pixeldata)
     # counter.normalize()
     counter.getcounts(step = 1)
     

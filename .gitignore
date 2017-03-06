@@ -3,4 +3,4 @@
 *.swp
 Data/
 __pycache__/
-
+*.csv
