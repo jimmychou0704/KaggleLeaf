@@ -5,6 +5,9 @@ import triangle as tr
 import time
 import matplotlib.pyplot as plt
 
+
+
+
 outputname = 'ratiostest.csv'
 seperator = '\n-------------------------\n'
 
