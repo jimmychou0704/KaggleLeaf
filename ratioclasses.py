@@ -6,7 +6,7 @@ class BoxCount:
         self.pixels = pixels
         self.height, self.width = pixels.shape
         self.counts = np.zeros(6, dtype = 'uint')
-        self.v_countsindex = np.vectorize(self.countsindex)
+        self.v_countsindex = np.vectorize(self.countsindex, otypes = 'B')
 
         self.variation_minarea = np.zeros(6)
         self.l2square_minarea = np.zeros(6)

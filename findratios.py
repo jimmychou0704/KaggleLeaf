@@ -59,9 +59,11 @@ for i in range(numpics):
     # totalgradient = np.sum( counter.counts * gradientsize ) 
     # L2norm = np.sum( counter.counts * L2size)
     # L2norm = np.sqrt( L2norm )
-    totalgradient = boxcounter.findperimeter()
-    L2norm = boxcounter.findL2Norm()
-    ratio = totalgradient / L2norm
+
+    # totalgradient = boxcounter.findperimeter()
+    # L2norm = boxcounter.findL2Norm()
+    # ratio = totalgradient / L2norm
+    ratio = boxcounter.getratio_minarea()
 
     isopratios[i][0] = i + 1
     isopratios[i][1] = ratio
@@ -83,14 +85,3 @@ for i in range(numpics):
     line = str(i+1) + ',' + str(isopratios[i][1]) +  '\n'
     f.write(line)
 f.close()
-    
-#################### Old Stuff
-perimetersize = [ [0, 1, 2]
-                , [2, 1, 0]
-                ]
-
-L1size = [ [0.0, 1.0/6.0, 2.0/6.0]
-         , [1.0/2.0 - 2.0/6.0, 1.0/2.0 - 1.0/6.0, 1.0/2.0] 
-         ] 
-L1size = np.array( L1size )
-
