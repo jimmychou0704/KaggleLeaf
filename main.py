@@ -60,6 +60,10 @@ L2norm = boxcounter.findL2Norm()
 print('L2 Norm = ', L2norm)
 print('Isoperimetric ratio = ', perimeter/L2norm)
 
+midptvalues = boxcounter.midpts_minarea()
+print(seperator, 'For minimizing area, the midpoint values of different cases are\n', midptvalues)
+print('Ratio for minimizing area = ', boxcounter.getratio_minarea())
+
 totalgradient = np.sum( counter.counts * gradientsize ) 
 L2norm = np.sum( counter.counts * L2size)
 L2norm = np.sqrt( L2norm )

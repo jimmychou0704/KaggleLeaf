@@ -29,6 +29,10 @@ numpics = 1584
 
 isopratios = np.zeros((numpics, 2))
 lasttime = time.clock()
+
+pixeldata = np.zeros((2,2))
+boxcounter = rc.BoxCount(pixeldata)
+
 for i in range(numpics):
     
     # Load the image.
@@ -48,7 +52,8 @@ for i in range(numpics):
     # counter.normalize()
     # counter.getcounts(step = 1)
 
-    boxcounter = rc.BoxCount(pixeldata)
+    # boxcounter = rc.BoxCount(pixeldata)
+    boxcounter.setpixeldata(pixeldata)
     boxcounter.getcounts()
     
     # totalgradient = np.sum( counter.counts * gradientsize ) 
