@@ -1,7 +1,7 @@
 from PIL import Image
 import PIL.ImageOps
 import numpy as np
-import triangle as tr
+import ratioclasses as rc 
 import matplotlib.pyplot as plt
 
 seperator = '\n-------------------------\n'
@@ -25,24 +25,44 @@ print('L2size = \n', L2size)
 # Load the images.
 #myimage = Image.open('Data/images/1.jpg')
 # myimage = Image.open('bigcircle.jpg')
-myimage = Image.open('othertriangle.jpg')
+myimage = Image.open('halftriangle.jpg')
 myimage = myimage.convert('1')
 (imwidth, imheight) = myimage.size
 print('image dimensions = ', myimage.size)
 
 pixeldata = np.array(myimage.getdata(), dtype = 'uint')
 pixeldata = pixeldata.reshape(imheight, imwidth)
+
+# Normalize pixeldata
+pixeldata[pixeldata > 0] = 1
+
+# Double check image
 plt.imshow(pixeldata, cmap = plt.cm.gray)
 plt.show()
 print('pixeldata shape = ', pixeldata.shape)
 
 # Set up counter. Normalize the pixel data to be values of 0 or 1.
-counter = tr.TriangleCount(pixeldata)
-counter.normalize()
-print(seperator, 'Pixel Data has been normalized.')
+counter = rc.TriangleCount(pixeldata)
+print(seperator)
 print('Double Check: Max of pixeldata = ', np.max(counter.pixels))
 counter.getcounts()
 print('Triangle Counts = \n', counter.counts)
+
+# Set up box counter. 
+boxcounter = rc.BoxCount(pixeldata)
+print(seperator, 'Now looking at box count')
+boxcounter.getcounts()
+print('Box Counts Are\n', boxcounter.counts)
+print('[0 Count, 1 Count, 2 Count Diagonals, 2 Count Non-diagonals, 3 Count, 4 Count]')
+perimeter = boxcounter.findperimeter()
+print('perimeter = ', perimeter) 
+L2norm = boxcounter.findL2Norm()
+print('L2 Norm = ', L2norm)
+print('Isoperimetric ratio = ', perimeter/L2norm)
+
+midptvalues = boxcounter.midpts_minarea()
+print(seperator, 'For minimizing area, the midpoint values of different cases are\n', midptvalues)
+print('Ratio for minimizing area = ', boxcounter.getratio_minarea())
 
 totalgradient = np.sum( counter.counts * gradientsize ) 
 L2norm = np.sum( counter.counts * L2size)
