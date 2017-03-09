@@ -5,6 +5,9 @@ import ratioclasses as rc
 import time
 import matplotlib.pyplot as plt
 
+
+
+
 outputname = 'ratiostest.csv'
 seperator = '\n-------------------------\n'
 
